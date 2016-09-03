@@ -2,6 +2,7 @@ package com.test.controller;
 
 
 import com.test.entity.Field;
+import com.test.entity.FieldValue;
 import com.test.entity.Option;
 import com.test.repository.FieldRepository;
 import com.test.repository.UserRepository;
@@ -56,9 +57,8 @@ public class FieldController {
     }
 
     private void saveField(FieldDto fieldDto, Field field){
-        ArrayList<Option> options = null;
+        ArrayList<Option> options = new ArrayList<Option>();
         if (fieldDto.getOptions() != null){
-            options = new ArrayList<Option>();
             for (String value : fieldDto.getOptions()) {
                 options.add(new Option(value, field));
             }
@@ -66,6 +66,7 @@ public class FieldController {
         field.setName(fieldDto.getName());
         field.setType(fieldDto.getType());
         field.setOptions(options);
+        field.setFieldsValues(new ArrayList<FieldValue>());
         field.setActive(fieldDto.isActive());
         field.setRequired(fieldDto.isRequired());
         fieldDao.save(field);

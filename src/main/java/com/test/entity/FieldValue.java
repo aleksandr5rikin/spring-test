@@ -1,5 +1,7 @@
 package com.test.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -22,6 +24,7 @@ public class FieldValue {
     @JoinColumn(name="field_id")
     private Field field;
 
+    @JsonIgnore
     @NotNull
     @ManyToOne( fetch = FetchType.EAGER )
     @JoinColumn(name="user_id")

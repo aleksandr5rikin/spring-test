@@ -2,7 +2,7 @@
  * Created by cocozub on 30.08.2016.
  */
 
-var app = angular.module("app", []);
+var app = angular.module('app', []);
 
 app.controller('subscribeCtrl', function ($scope) {
 

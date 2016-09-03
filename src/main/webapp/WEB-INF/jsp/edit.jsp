@@ -1,7 +1,7 @@
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html>
 <html lang="en" ng-app="app">
   <head>
     <title>Create/Edit Field</title>
@@ -13,19 +13,18 @@
             href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
             rel="stylesheet"
             integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
-            crossorigin="anonymous">
-	<base href="/fields">
+            crossorigin="anonymous"/>
   </head>
   <body
 		
 		<div class = "container" >
 		
 			<div ng-controller = 'subscribeCtrl'>
-				<a href="/fields">Fields</a> 
-				<a href="/responses">{{tmp}}</a>
+				<a href="/fields" target="_self">Fields</a> 
+				<a href="/responses" target="_self">{{tmp}}</a>
 			</div>
 
-			<form ng-controller="HttpPostCtrl">
+			<form name = "form" ng-controller="HttpPostCtrl">
 
 				<div class="form-group">
 					<label for="nameid">Label*:</label>
@@ -43,9 +42,9 @@
 					</select>
 				</div>
 
-				<div class="form-group" ng-show="type == 'radio button' || type == 'combobox'">
+				<div class="form-group" ng-show="checked = (type == 'radio button' || type == 'combobox')">
 					<label for="optionid">Options:</label></br>
-					<textarea class="form-control" id = "optionsid" ng-model="options" ng-list="&#10;" ng-trim="false" cols = "20" required = "required"></textarea>
+					<textarea class="form-control" id = "optionsid" ng-model="options" ng-list="&#10;" ng-trim="false" cols = "20" ng-required="checked"></textarea>
 				</div>
 				
 				<div class="checkbox">
@@ -64,7 +63,11 @@
 		</div>
     <script>
 	  app.config(function($locationProvider) {
-		  $locationProvider.html5Mode(true).hashPrefix('!');
+		  $locationProvider.html5Mode(
+		  {
+				enabled: true,
+				requireBase: false
+			}).hashPrefix('!');
 	  })
 
 	  app.controller("HttpPostCtrl", function ($scope, $http, $location) {

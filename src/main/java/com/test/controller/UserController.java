@@ -7,6 +7,8 @@ import com.test.entity.User;
 import com.test.repository.FieldRepository;
 import com.test.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -17,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -54,6 +57,26 @@ public class UserController {
         model.addAttribute("fields", fieldDao.findActiveFields());
         model.addAttribute("users", userDao.findAll());
         return new ModelAndView("responses", model);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/getusers", method = RequestMethod.GET)
+    public ResponseEntity<List<User>> getUsers (){
+        List<User> users = userDao.findAll();
+        if(users.isEmpty()){
+            return new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<List<User>>(users, HttpStatus.OK);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/getfields", method = RequestMethod.GET)
+    public ResponseEntity<List<Field>> getFields (){
+        List<Field> fields = fieldDao.findActiveFields();
+        if(fields.isEmpty()){
+            return new ResponseEntity<List<Field>>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<List<Field>>(fields, HttpStatus.OK);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.test.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
@@ -16,6 +17,7 @@ public class Option {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+    @JsonIgnore
     @NotNull
     @ManyToOne( fetch = FetchType.EAGER )
     @JoinColumn(name="field_id")

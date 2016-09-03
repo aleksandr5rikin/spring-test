@@ -1,5 +1,6 @@
 package com.test.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.test.dto.FieldDto;
 
 import javax.persistence.*;
@@ -29,6 +30,7 @@ public class Field {
     @OneToMany(orphanRemoval=true, fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="field")
     private List<Option> options;
 
+    @JsonIgnore
     @OneToMany(orphanRemoval=true, fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="field")
     private List<FieldValue> fieldsValues;
 
@@ -75,7 +77,13 @@ public class Field {
     }
 
     public void setOptions(List<Option> options) {
-        this.options = options;
+        if(this.options == null)
+            this.options = new ArrayList<Option>();
+        else
+            this.options.clear();
+        if (options != null) {
+            this.options.addAll(options);
+        }
     }
 
     public void setRequired(boolean required) {
@@ -84,5 +92,19 @@ public class Field {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public List<FieldValue> getFieldsValues() {
+        return fieldsValues;
+    }
+
+    public void setFieldsValues(List<FieldValue> fieldsValues) {
+        if (this.fieldsValues == null)
+            this.fieldsValues = new ArrayList<FieldValue>();
+        else
+            this.fieldsValues.clear();
+        if (fieldsValues != null) {
+            this.fieldsValues.addAll(fieldsValues);
+        }
     }
 }
